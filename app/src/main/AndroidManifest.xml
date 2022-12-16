@@ -1,15 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.socio.imagetoserver">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.socio.imagetoserver" >
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.flash"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="ANDROID.PERMISSION.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
+    <!--permissions for INTERNET-->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:usesCleartextTraffic="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ImageToServer">
-        <activity android:name=".MainActivity">
+        android:theme="@style/MyAppTheme"
+        android:requestLegacyExternalStorage="true" >
+
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.socio.imagetoserver.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_path">
+
+            </meta-data>
+        </provider>
+        <activity android:name=".ImagePreviewActivity" >
+        </activity>
+        <activity android:name=".BaseActivity" />
+        <activity android:name=".MainActivity" />
+        <activity
+            android:name=".DashboardActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_account"
+        android:title="Home"
+        android:icon="@drawable/ic_home_menu_foreground"
+        android:iconTint="@color/white"/>
+
+<!--    <item-->
+<!--        android:id="@+id/nav_settings"-->
+<!--        android:title="Settings"-->
+<!--        android:iconTint="@null"-->
+<!--        android:icon="@mipmap/ic_settings_menu"/>-->
+
+
+    <item
+        android:id="@+id/nav_camera"
+        android:title="Camera"
+        android:icon="@drawable/ic_camera_menu_foreground"/>
+    <item
+        android:id="@+id/nav_profile"
+        android:title="Profile"
+        android:iconTint="@color/white"
+        android:icon="@drawable/ic_logout_menu_foreground"/>
+</menu>
