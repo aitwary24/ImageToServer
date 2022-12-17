@@ -281,6 +281,7 @@ public class ImagePreviewActivity extends Activity {
                     dialogInterface.dismiss();
                 }
 
+            dialogInterface.dismiss();
             }
 
         });
