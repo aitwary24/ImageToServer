@@ -94,7 +94,13 @@ public class DashboardActivity extends AppCompatActivity {
         navigationView = findViewById(R.id.bottom_navigation);
         navigationView.setOnNavigationItemSelectedListener(selectedListener);
 
-
+        // When we open the application first
+        // time the fragment should be shown to the user
+        // in this case it is home fragment
+        HomeFragment fragment = new HomeFragment();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.content, fragment, "");
+        fragmentTransaction.commit();
 
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -113,11 +119,18 @@ public class DashboardActivity extends AppCompatActivity {
 
                 case R.id.nav_account:
                     //actionBar.setTitle("Home");
+
+                    Intent homeintent=new Intent(DashboardActivity.this,MainActivity.class);
+                    startActivity(homeintent);
+
                     HomeFragment fragment = new HomeFragment();
                     FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.content, fragment, "");
                     fragmentTransaction.commit();
+                  //  startActivity(new Intent(getApplicationContext(),HomeFragment.class));
+                    overridePendingTransition(0,0);
                     return true;
+
 
                 case R.id.nav_camera:
                     //actionBar.setTitle("Camera");
