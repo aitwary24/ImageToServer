@@ -5,10 +5,52 @@
     android:layout_height="match_parent"
     tools:context=".ProfileFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/Profile" />
+        android:layout_height="wrap_content"
+        android:indeterminate="false"
+        android:max="100"
+        android:minWidth="200dp"
+        android:minHeight="50dp"
+        android:progress="0"
+        tools:progress="20" />
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:gravity="center_vertical"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_margin="24dp"
+                android:background="@color/primary_color"
+                android:src="@drawable/upload" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/primary_color"
+                android:fontFamily="sans-serif-light"
+                android:text="Tap to Select Image"
+                android:textSize="24sp" />
+
+            <Button
+                android:id="@+id/buttonUploadImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/white"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="@color/primary_color"
+                android:text="@string/upload" />
+        </LinearLayout>
 
 </FrameLayout>

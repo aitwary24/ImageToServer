@@ -12,69 +12,75 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.socio.Adapter.InstaAdapter;
 import com.socio.Adapter.InstagramFeedRVAdapter;
+import com.socio.Model.ImageModel;
+import com.socio.Model.InstaFeedModal;
+import com.squareup.picasso.Picasso;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link HomeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.sql.Timestamp;
+import java.util.ArrayList;
+
+
 public class HomeFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
     RecyclerView recyclerView;
-    InstagramFeedRVAdapter adapter;
+    InstaAdapter adapter;
+    ArrayList<ImageModel> imageModelArrayList;
+    View view;
+    public  HomeFragment () {
 
-    public HomeFragment() {
-        // Required empty public constructor
-    }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static HomeFragment newInstance(String param1, String param2) {
-        HomeFragment fragment = new HomeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-
-            recyclerView = recyclerView.findViewById(R.id.idRVInstaFeeds);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            recyclerView.setAdapter(adapter);
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater ,ViewGroup container ,Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        //layoutManager = new LinearLayoutManager(getContext());
-//        recyclerView.setHasFixedSize(true);
+       view = inflater.inflate(R.layout.fragment_home, container, false);
+       recyclerView = view.findViewById(R.id.idRVInstaFeeds);
+          adapter=new InstaAdapter(imageModelArrayList,getContext());
+          recyclerView.setAdapter(adapter);
+          recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        return view;
+    }
 
+    @Override
+    public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        imageModelArrayList=new ArrayList<>();
+        String str="2022-12-17 09:01:15";
+        Timestamp timestamp= Timestamp.valueOf(str);
+        imageModelArrayList.add(new ImageModel("1","Image",
+                Picasso.get().load(R.drawable.avtar).toString(),
+                Picasso.get().load(R.drawable.highsports).toString(),
+                "Steve",getString(R.string.app_name),
+                timestamp.toString(),"THis is a demo url",4));
 
-        return inflater.inflate(R.layout.fragment_home, container, false);
-            }
+        imageModelArrayList.add(new ImageModel("2","Image",
+                Picasso.get().load(R.drawable.avtar).toString(),
+                Picasso.get().load(R.drawable.games).toString(),
+                "Steve",getString(R.string.app_name),
+                timestamp.toString(),"THis is a demo url",4));
+        imageModelArrayList.add(new ImageModel("3","Image",
+                Picasso.get().load(R.drawable.avtar).toString(),
+                Picasso.get().load(R.drawable.highsports).toString(),
+                "Steve",getString(R.string.app_name),
+                timestamp.toString(),"THis is a demo url",4));
+        imageModelArrayList.add(new ImageModel("4","Image",
+                Picasso.get().load(R.drawable.avtar).toString(),
+                Picasso.get().load(R.drawable.games).toString(),
+                "Steve",getString(R.string.app_name),
+                timestamp.toString(),"THis is a demo url",4));
+        imageModelArrayList.add(new ImageModel("5","Image",
+                Picasso.get().load(R.drawable.avtar).toString(),
+                Picasso.get().load(R.drawable.highsports).toString(),
+                "Steve",getString(R.string.app_name),
+                timestamp.toString(),"THis is a demo url",4));
+        imageModelArrayList.add(new ImageModel("6","Image",
+                Picasso.get().load(R.drawable.avtar).toString(),
+                Picasso.get().load(R.drawable.games).toString(),
+                "Steve",getString(R.string.app_name),
+                timestamp.toString(),"THis is a demo url",4));
+
+    }
 }

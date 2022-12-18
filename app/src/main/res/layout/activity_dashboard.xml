@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -14,7 +13,37 @@
     <include
         layout="@layout/toolbar_layout"/>
 
+        <!--recycler view for displaying
+             our Instagram posts-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/idRVInstaFeeds"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
+        <!--progressbar for displaying
+            our loading indicator-->
+        <ProgressBar
+            android:id="@+id/idLoadingPB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="visible" />
+        <FrameLayout
+            android:id="@+id/content_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            tools:ignore="MissingConstraints">
+
+        <include
+            layout="@layout/content_main"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/navigation"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        </FrameLayout>
             <com.google.android.material.navigation.NavigationView
                 android:id="@+id/toolbar_navigation"
                 android:layout_width="match_parent"
@@ -23,11 +52,6 @@
                 app:menu="@menu/navigation_menu">
 
             </com.google.android.material.navigation.NavigationView>
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/nav_frame">
-        </FrameLayout>
     </LinearLayout>
     <FrameLayout
         android:id="@+id/content"

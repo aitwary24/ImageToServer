@@ -2,8 +2,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".HomeFragment"
+    android:layout_marginTop="8dp"
     android:id="@+id/content">
 
     <!--recycler view for displaying
@@ -11,16 +12,10 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/idRVInstaFeeds"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content" />
 
     <!--progressbar for displaying
         our loading indicator-->
-    <ProgressBar
-        android:id="@+id/idLoadingPB"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:visibility="visible" />
 
 
 </FrameLayout>

@@ -32,7 +32,7 @@ public class InstagramFeedRVAdapter extends RecyclerView.Adapter<InstagramFeedRV
     @Override
     public InstagramFeedRVAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // inflating our layout for item of recycler view item.
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.insta_feed_rv_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item, parent, false);
         return new InstagramFeedRVAdapter.ViewHolder(view);
     }
 
