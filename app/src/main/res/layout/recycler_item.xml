@@ -1,54 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <LinearLayout
-        android:id="@+id/idLLTopBar"
+    android:layout_height="wrap_content"
+    android:layout_margin="12dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:backgroundTint="@color/primary_color">
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="4dp">
+        app:cardCornerRadius="25dp"
+        android:padding="4dp"
+        android:backgroundTint="#F5F7F8"
+        tools:ignore="MissingConstraints">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#F4EFEF"
+        tools:ignore="MissingConstraints">
 
-        <!--circle image for displaying the user image-->
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/idCVAuthor"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_margin="5dp" />
-
-        <!--text view for displaying user name-->
-        <TextView
-            android:id="@+id/idTVAuthorName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="3dp"
-            android:padding="3dp"
-            android:text="Author"
-            android:textColor="@color/black"
-            android:textStyle="bold" />
-    </LinearLayout>
 
     <!--image view to display the post image-->
     <ImageView
         android:id="@+id/idIVPost"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_below="@id/idLLTopBar"
+        android:layout_height="wrap_content"
         android:adjustViewBounds="true"
+        android:src="@drawable/soccerindiana"
         android:scaleType="centerCrop" />
 
     <!--text view to display likes count-->
     <TextView
         android:id="@+id/idTVLikes"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
         android:layout_below="@id/idIVPost"
         android:layout_margin="6dp"
         android:padding="5dp"
-        android:text="likes"
+        android:text="3likes"
         android:textColor="@color/black"
         android:textStyle="bold" />
 
@@ -61,7 +51,65 @@
         android:layout_below="@id/idTVLikes"
         android:layout_margin="6dp"
         android:padding="5dp"
+        android:textStyle="italic"
+        android:text="what a nice a day to start a game"
         android:textColor="@color/black"
         android:textSize="11sp" />
 
-</RelativeLayout>
+            <!--circle image for displaying the user image-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/idIVPost">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/idCVAuthor"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/avtar"
+                android:layout_margin="5dp" />
+
+            <!--text view for displaying user name-->
+            <TextView
+                android:id="@+id/idTVAuthorName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="3dp"
+                android:padding="3dp"
+                android:layout_toRightOf="@+id/idCVAuthor"
+                android:text="Danie Daniel"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="3"
+            android:layout_below="@+id/idTVPostDesc">
+        <ImageView
+            android:id="@+id/idCVlike"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/like"
+            android:layout_weight="1"
+            android:layout_margin="5dp" />
+            <ImageView
+                android:id="@+id/idComment"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:src="@drawable/comment"
+                android:layout_margin="5dp" />
+            <ImageView
+                android:id="@+id/idShare"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:src="@drawable/share"
+                android:layout_margin="5dp" />
+        </LinearLayout>
+    </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

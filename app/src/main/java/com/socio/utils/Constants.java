@@ -1,7 +1,7 @@
 package com.socio.utils;
 
 public interface Constants {
-    String BASE_URL = "https://dev.nojoto.com/api/beta/content.php/";
+    String BASE_URL = "http://dev.nojoto.com/api/beta/content.php/";
 
     String EMPTY = "";
     String TYPE = "type";

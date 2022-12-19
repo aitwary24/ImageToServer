@@ -228,30 +228,30 @@ public class ImagePreviewActivity extends Activity {
         ApiInterface api = retrofit.create(ApiInterface.class);
 
         //creating a call and calling the upload image method
-        Call<MyResponse> call = api.uploadImage(requestFile, descBody);
-
-        //peforming calls
-        call.enqueue(new Callback<MyResponse>() {
-            @Override
-            public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
-               // assert response.body() != null;
-               // if (!response.body().error) {
-
-                Toast.makeText(getApplicationContext(), response.message(), Toast.LENGTH_LONG).show();
-
-                Toast.makeText(getApplicationContext(), "File Uploaded Successfully...", Toast.LENGTH_LONG).show();
-
-               // }
-                //else {
-                   // Toast.makeText(getApplicationContext(), "Some error occurred...", Toast.LENGTH_LONG).show();
-               // }
-            }
-
-            @Override
-            public void onFailure(Call<MyResponse> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
+//        Call<MyResponse> call = api.uploadImage(requestFile, );
+//
+//        //peforming calls
+//        call.enqueue(new Callback<MyResponse>() {
+//            @Override
+//            public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
+//               // assert response.body() != null;
+//               // if (!response.body().error) {
+//
+//                Toast.makeText(getApplicationContext(), response.message(), Toast.LENGTH_LONG).show();
+//
+//                Toast.makeText(getApplicationContext(), "File Uploaded Successfully...", Toast.LENGTH_LONG).show();
+//
+//               // }
+//                //else {
+//                   // Toast.makeText(getApplicationContext(), "Some error occurred...", Toast.LENGTH_LONG).show();
+//               // }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<MyResponse> call, Throwable t) {
+//                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+//            }
+//        });
     }
 
     // function to let's the user to choose image from camera or gallery
