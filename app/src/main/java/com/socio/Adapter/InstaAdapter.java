@@ -43,12 +43,12 @@ public class InstaAdapter extends  RecyclerView.Adapter<InstaAdapter.InstaViewHo
     public void onBindViewHolder(@NonNull InstaViewHolder holder, int position) {
 
         //inside on bind view holder method we are setting ou data to each UI component.
-//        ImageModel instaFeedModal = instaFeedModalArrayList.get(position);
-//        Picasso.get().load(R.drawable.avtar).into(holder.authorIV);
-//        holder.authorTV.setText("Danie Daniels");
-//        Picasso.get().load(R.drawable.highsports).into(holder.postIV);
-//        holder.likeTV.setText("6likes");
-//        holder.desctv.setText("this is a revenue generating feed showing plaltform wher kevnbjbv k bkjvbeskbkj");
+        ImageModel instaFeedModal = instaFeedModalArrayList.get(position);
+        Picasso.get().load(R.drawable.avtar).into(holder.authorIV);
+        holder.authorTV.setText(instaFeedModal.getUsername());
+        Picasso.get().load(R.drawable.games).into(holder.postIV);
+        holder.likeTV.setText("6likes");
+        holder.desctv.setText("this is a revenue generating feed showing plaltform wher kevnbjbv k bkjvbeskbkj");
 
     }
 

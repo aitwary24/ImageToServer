@@ -10,6 +10,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.loader.content.CursorLoader;
 
@@ -36,6 +37,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
 
 import okhttp3.MediaType;
@@ -51,6 +55,8 @@ import static android.app.Activity.RESULT_OK;
 
 
 public class ProfileFragment extends Fragment {
+    private static final int REQUEST_CAPTURE_IMAGE = 100;
+    File file=null;
 
 ImageView upload;
 Button uploadbtn;
@@ -100,6 +106,7 @@ Button uploadbtn;
        upload.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
+
                 chooseImage(getActivity());
                 //upload.setImageURI();
                //uploadFile(selectedImage);
@@ -116,7 +123,19 @@ Button uploadbtn;
         //upload.setImageURI(selectedImage);
        // selectedImage=takePicture.getData();
         upload.setImageURI(selectedImage);
-        selectedImage=Uri.fromFile(Environment.getExternalStorageDirectory());
+        try {
+            file = createImageFile();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        //if (photoFile != null) {
+            Uri photoURI = FileProvider.getUriForFile(getActivity(),"com.socio.imagetoserver.fileprovider", file);
+            takePicture.putExtra(MediaStore.EXTRA_OUTPUT,
+                    photoURI);
+            startActivityForResult(takePicture,
+                    REQUEST_CAPTURE_IMAGE);
+               // uploadFile(photoURI);
+       // }
 
 
     }
@@ -126,22 +145,12 @@ Button uploadbtn;
 
 
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK ) {
+        if (requestCode==REQUEST_CAPTURE_IMAGE && resultCode == RESULT_OK ) {
+            if (data != null && data.getExtras() != null) {
+                Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
+                upload.setImageBitmap(imageBitmap);
 
-//            selectedImage = data.getData();
-//            uploadFile(selectedImage);
-//            upload.setImageURI(selectedImage);
-
-          //selectedImage = data.getData();                                                         // Get the image file URI
-//          upload.setImageURI(selectedImage);
-          Bitmap photo = (Bitmap) data.getExtras().get("data");
-            upload.setImageBitmap(photo);
-
-            Bundle extras = data.getExtras();
-            photo = (Bitmap) extras.get("data");
-            // imageBitmap = (Bitmap) data.getExtras().get("data");
-            upload.setImageBitmap(photo);
-            selectedImage=data.getData();
+            }
         }
     }
     private String getRealPathFromURI(Uri contentUri) {
@@ -157,12 +166,9 @@ Button uploadbtn;
     }
 
     private void uploadFile(Uri fileUri) {
+         selectedImage = FileProvider.getUriForFile(getActivity(),"com.socio.imagetoserver.fileprovider", file);
 
-        //creating a file
-       File file = new File(String.valueOf((fileUri)));
-        //File imageFile = new File(uri);                                                          // Create a file using the absolute path of the image
-
-        RequestBody requestFile = RequestBody.create(MediaType.parse(String.valueOf(fileUri)), file);
+           RequestBody requestFile = RequestBody.create(MediaType.parse(String.valueOf(selectedImage)), file);
         RequestBody descBody = RequestBody.create(MediaType.parse("text/plain"), "My Image");
 
         //The gson builder
@@ -216,14 +222,17 @@ Button uploadbtn;
                  a += 1;
                  handler.post(new Runnable() {
                      public void run() {
-                         progressDialog.setProgress(a);
                          textView.setText(a + "/" + progressDialog.getMax());
+                         progressDialog.setProgress(a);
                          if (a == 100){
                              textView.setText(" Your Image  has been Uploaded");
-                         uploadFile(selectedImage);}
+                         uploadFile(selectedImage);
+                         }
                          else
                              textView.setText("Please Try again");
+                         //textView.setText("Oops:Error Occured,Please try again Later");
                      }
+                    // textView.setText("Please Try again");
                  });
 
                  try {
@@ -236,5 +245,20 @@ Button uploadbtn;
          }
      }).start();
  }
+    String imageFilePath;
+    private File createImageFile() throws IOException {
+        String timeStamp =
+                new SimpleDateFormat("yyyyMMdd_HHmmss",
+                        Locale.getDefault()).format(new Date());
+        String imageFileName = "IMG_" + timeStamp + "_";
+        File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
 
+        imageFilePath = image.getAbsolutePath();
+        return image;
+    }
 }

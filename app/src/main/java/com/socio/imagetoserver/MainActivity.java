@@ -11,6 +11,7 @@ import android.database.Cursor;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
@@ -25,6 +26,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.loader.content.CursorLoader;
@@ -51,8 +53,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -63,7 +69,9 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
+    private static final int REQUEST_CAPTURE_IMAGE = 100;
 
+    File file=null;
 
     private ArrayList<ImageModel> instaModalArrayList;
 
@@ -106,7 +114,6 @@ public class MainActivity extends AppCompatActivity {
                         args.putString("Image", String.valueOf(stringUri));
                         profileFragment.setArguments(args);
                         setFragment(profileFragment);}
-
                         return true;}
 
                     case R.id.nav_profile:{
@@ -138,8 +145,15 @@ public class MainActivity extends AppCompatActivity {
 
             Uri selectedImage = getIntent().getData();
             uploadFile(selectedImage);
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
 
-            //setFragment(new ProfileFragment());
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
+            setFragment(new ProfileFragment());
         }
     }
 
@@ -192,51 +206,30 @@ public class MainActivity extends AppCompatActivity {
 
     // function to let's the user to choose image from camera or gallery
     private void chooseImage(Context context){
-//        final CharSequence[] optionsMenu = {"Take Photo", "Choose from Gallery", "Exit" }; // create a menuOption Array
-//        // create a dialog for showing the optionsMenu
-//        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-//        // set the items in builder
-//        builder.setItems(optionsMenu, new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialogInterface, int i) {
-//                dialogInterface.dismiss();
-//                if(optionsMenu[i].equals("Take Photo")){
-//                    // Open the camera and get the photo
-//                    Intent takePicture = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-//                    //takePicture.putExtra("android.intent.extras.CAMERA_FACING", 1);
-//                    startActivityForResult(takePicture, 0);
-//                    dialogInterface.dismiss();
-//                    processCameraImage();
-//
-//
-//                }
-//                else if(optionsMenu[i].equals("Choose from Gallery")){
-//                    // choose from  external storage
-//                    Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//                    startActivityForResult(pickPhoto , 1);
-//                    dialogInterface.dismiss();
-//                    processGalleryImage();
-//
-//                }
-//                else if (optionsMenu[i].equals("Exit")) {
-//                    dialogInterface.dismiss();
-//                }
-//                dialogInterface.dismiss();
-//            }
-//        });
-//
-//        builder.show();
         Intent takePicture = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
         takePicture.putExtra("android.intent.extras.CAMERA_FACING", 1);
-        startActivityForResult(takePicture, 0);
+        //takePicture.setType("image/*");
+        startActivityForResult(takePicture, 123);
+        //upload.setImageURI(selectedImage);
+        // selectedImage=takePicture.getData();
+        //upload.setImageURI(selectedImage);
+        try {
+            file = createImageFile();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        //if (photoFile != null) {
+        Uri photoURI = FileProvider.getUriForFile(getApplicationContext(),"com.socio.imagetoserver.fileprovider", file);
+        takePicture.putExtra(MediaStore.EXTRA_OUTPUT,
+                photoURI);
+        startActivityForResult(takePicture,
+                REQUEST_CAPTURE_IMAGE);
     }
     private void uploadFile(Uri fileUri) {
 
-        //creating a file
-        File file = new File(getRealPathFromURI(fileUri));
+        fileUri = FileProvider.getUriForFile(getApplicationContext(),"com.socio.imagetoserver.fileprovider", file);
 
-        //creating request body for file
-        RequestBody requestFile = RequestBody.create(MediaType.parse(getContentResolver().getType(fileUri)), file);
+        RequestBody requestFile = RequestBody.create(MediaType.parse(String.valueOf(fileUri)), file);
         RequestBody descBody = RequestBody.create(MediaType.parse("text/plain"), "My Image");
 
         //The gson builder
@@ -255,25 +248,31 @@ public class MainActivity extends AppCompatActivity {
         ApiInterface api = retrofit.create(ApiInterface.class);
 
         //creating a call and calling the upload image method
-        retrofit2.Call<MyResponse> call = api.uploadImage(requestFile, descBody);
+        Call<MyResponse> call = api.uploadImage(requestFile, descBody);
 
         //peforming calls
         call.enqueue(new Callback<MyResponse>() {
             @Override
-            public void onResponse(retrofit2.Call<MyResponse> call, Response<MyResponse> response) {
+            public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
                 // assert response.body() != null;
                 // if (!response.body().error) {
+                Log.v(response.message(),"File is uploading ");
+                Toast.makeText(getApplicationContext(), response.message(), Toast.LENGTH_LONG).show();
                 Toast.makeText(getApplicationContext(), "File Uploaded Successfully...", Toast.LENGTH_LONG).show();
+                setFragment(new ProfileFragment());
+                //upload.setImageURI(selectedImage);
+                //uploadFile(selectedImage);
                 // }
-                //
+                //else {
+                // }
             }
 
             @Override
             public void onFailure(Call<MyResponse> call, Throwable t) {
                 Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Some error occurred...", Toast.LENGTH_LONG).show();
 
-                    Toast.makeText(getApplicationContext(), "Some error occurred...", Toast.LENGTH_LONG).show();
-                Log.d("not worked ",t.getMessage());
+
             }
         });
     }
@@ -305,5 +304,21 @@ public class MainActivity extends AppCompatActivity {
                 Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(cameraIntent, REQUEST_ID_MULTIPLE_PERMISSIONS,bundle);
 
+    }  String imageFilePath;
+    private File createImageFile() throws IOException {
+        String timeStamp =
+                new SimpleDateFormat("yyyyMMdd_HHmmss",
+                        Locale.getDefault()).format(new Date());
+        String imageFileName = "IMG_" + timeStamp + "_";
+        File storageDir = getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        imageFilePath = image.getAbsolutePath();
+        return image;
     }
+
 }

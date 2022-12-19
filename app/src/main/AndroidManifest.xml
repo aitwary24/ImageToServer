@@ -37,7 +37,8 @@
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.socio.imagetoserver.fileprovider"
             android:exported="false"
-            android:grantUriPermissions="true">
+            android:grantUriPermissions="true"
+            android:requestLegacyExternalStorage="true" >
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_path">

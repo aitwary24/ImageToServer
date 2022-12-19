@@ -59,28 +59,29 @@ public class HomeFragment extends Fragment {
         imageModelArrayList.add(new ImageModel("2","Image",
                 Picasso.get().load(R.drawable.avtar).toString(),
                 Picasso.get().load(R.drawable.games).toString(),
-                "Steve",getString(R.string.app_name),
+                "Smith",getString(R.string.app_name),
                 timestamp.toString(),"THis is a demo url",4));
         imageModelArrayList.add(new ImageModel("3","Image",
                 Picasso.get().load(R.drawable.avtar).toString(),
                 Picasso.get().load(R.drawable.highsports).toString(),
-                "Steve",getString(R.string.app_name),
+                "Jonnes",getString(R.string.app_name),
                 timestamp.toString(),"THis is a demo url",4));
         imageModelArrayList.add(new ImageModel("4","Image",
                 Picasso.get().load(R.drawable.avtar).toString(),
                 Picasso.get().load(R.drawable.games).toString(),
-                "Steve",getString(R.string.app_name),
+                "Wilde",getString(R.string.app_name),
                 timestamp.toString(),"THis is a demo url",4));
         imageModelArrayList.add(new ImageModel("5","Image",
                 Picasso.get().load(R.drawable.avtar).toString(),
                 Picasso.get().load(R.drawable.highsports).toString(),
-                "Steve",getString(R.string.app_name),
+                "Naman ",getString(R.string.app_name),
                 timestamp.toString(),"THis is a demo url",4));
         imageModelArrayList.add(new ImageModel("6","Image",
                 Picasso.get().load(R.drawable.avtar).toString(),
                 Picasso.get().load(R.drawable.games).toString(),
-                "Steve",getString(R.string.app_name),
+                "SriRam",getString(R.string.app_name),
                 timestamp.toString(),"THis is a demo url",4));
 
     }
+
 }
